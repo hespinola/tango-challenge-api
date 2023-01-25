@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express'
 import helmet from 'helmet'
 import http from 'http'
 import morgan from 'morgan'
+import fibonacci from './util/fibonacci'
 
 const server = () => {
   const app = express()
@@ -15,9 +16,13 @@ const server = () => {
 
   // Routes
   app.use('/v1/fibonacci', (req: Request, res: Response) => {
+    const { value } = req.query
+
+    const result = fibonacci(Number(value))
+
     return res.json({
       status: true,
-      data: 8
+      data: result
     })
   })
   app.get('/health', (_, res) => res.status(200).send({ success: true }))
